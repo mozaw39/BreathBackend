@@ -2,6 +2,7 @@ package org.backend.filters;
 
 import org.backend.modals.*;
 import org.backend.repository.*;
+import org.backend.repository.qualifiers.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,15 +38,15 @@ public class AuthorisationFilter implements ContainerRequestFilter {
     private static final String CANDIDATS_PATH = "candidats";
     private static final String ALL_USERS = "allusers";
     String[] tokens;
-    @Inject
+    @Inject @SimpleUserQualifier
     UserRepo userRepo;
-    @Inject
+    @Inject @UrgencierQualifier
     UrgencierRepo urgencierRepo;
-    @Inject
+    @Inject @AdminQualifier
     AdminRepo adminRepo;
-    @Inject
+    @Inject @RepositoryQualifier
     Repository repository;
-    @Inject
+    @Inject @CandidatQualifier
     CandidatRepo candidatRepo;
 
 
@@ -55,8 +56,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         UriInfo uriInfo = containerRequestContext.getUriInfo();
         List<String> authHeader = containerRequestContext.getHeaders()
                 .get(AUTHORISATION_HEADER_KEY);
-        if(isSecuredPath(uriInfo)) { // verify if the user has sent any credentials
-                if(authHeader != null && authHeader.size() > 0) {
+        //verifier si la ressource demandée est sécurisé.
+        if(isSecuredPath(uriInfo)) {
+                if(authHeader != null && authHeader.size() > 0) {// verify if the user has sent any credentials
                 String authToken = authHeader.get(0);
                 tokens = getStrings(authToken);
                 whoIsThis = getUserType(tokens);

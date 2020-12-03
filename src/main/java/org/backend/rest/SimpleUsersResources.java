@@ -3,6 +3,7 @@ package org.backend.rest;
 import org.backend.modals.Personne;
 import org.backend.modals.SimpleUser;
 import org.backend.repository.UserRepo;
+import org.backend.repository.qualifiers.SimpleUserQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SimpleUsersResources {
-    @Inject
+    @Inject @SimpleUserQualifier
     UserRepo userRepo;
 
     @DELETE

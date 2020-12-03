@@ -2,6 +2,7 @@ package org.backend.rest;
 
 import org.backend.modals.*;
 import org.backend.repository.*;
+import org.backend.repository.qualifiers.RepositoryQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -15,14 +16,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
 public class Inscription {
-    private int count;
-    @Inject
-    UserRepo userRepo;
-    @Inject
-    UrgencierRepo urgencierRepo;
-    @Inject
-    AdminRepo adminRepo;
-    @Inject
+    @Inject @RepositoryQualifier
     Repository repository;
 
     @POST

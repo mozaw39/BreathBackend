@@ -4,6 +4,7 @@ import org.backend.modals.Admin;
 import org.backend.modals.Personne;
 import org.backend.repository.Repository;
 import org.backend.repository.RepositoryInt;
+import org.backend.repository.qualifiers.RepositoryQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -20,7 +21,7 @@ import java.util.List;
 public class AuthenticatedResources {
     @Context
     ResourceContext context;
-    @Inject
+    @Inject @RepositoryQualifier
     Repository repository;
 
     //Cette ressource est crée pour permettre une authentification souple, on ne va pas s'amuser à tester

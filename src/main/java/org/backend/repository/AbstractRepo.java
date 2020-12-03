@@ -51,13 +51,13 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
 
     @Override
     public Long countAll() {
-        TypedQuery query = getEntityManager().createQuery("select count(user) from T user", Long.class);
+        TypedQuery query = getEntityManager().createQuery("select count(user) from "+ typeParameterClass.getName() + " user", Long.class);
         return (Long) query.getSingleResult();
     }
 
     @Override
     public List<T> findAll() {
-        TypedQuery query = getEntityManager().createQuery("select user from T user order by user.login", typeParameterClass);
+        TypedQuery query = getEntityManager().createQuery("select user from "+ typeParameterClass.getName() + " user order by user.login", typeParameterClass);
         return query.getResultList();
     }
 
@@ -69,7 +69,7 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
         return user;
     }
     public boolean isUserExist(String user) {
-        TypedQuery query = getEntityManager().createQuery("select user from T user order by user.login", typeParameterClass);
+       TypedQuery query = getEntityManager().createQuery("select user from "+ typeParameterClass.getName() + " user order by user.login", typeParameterClass);
         List<T> users = query.getResultList();
         for(T iteratedPersonne : users){
             if(iteratedPersonne.getLogin().equals(user))
@@ -80,7 +80,7 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
 
     @Override
     public boolean isPasswordCorrect(String user, String password) {
-        TypedQuery query = getEntityManager().createQuery("select user from T user order by user.login", typeParameterClass);
+        TypedQuery query = getEntityManager().createQuery("select user from "+ typeParameterClass.getName() + " user order by user.login", typeParameterClass);
         List<T> users = query.getResultList();
         for (T iteratedPersonne : users) {
             if (iteratedPersonne.getLogin().equals(user))

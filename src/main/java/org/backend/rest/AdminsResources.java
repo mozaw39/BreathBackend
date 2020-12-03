@@ -2,10 +2,10 @@ package org.backend.rest;
 
 import org.backend.modals.Admin;
 import org.backend.modals.Personne;
-import org.backend.modals.Urgencier;
 import org.backend.repository.AdminRepo;
 import org.backend.repository.AdminRepoInt;
 import org.backend.repository.UrgencierRepo;
+import org.backend.repository.qualifiers.AdminQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AdminsResources {
-    @Inject
+    @Inject @AdminQualifier
     AdminRepo adminRepo;
 
     @DELETE

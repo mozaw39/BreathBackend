@@ -5,6 +5,7 @@ import org.backend.modals.Personne;
 import org.backend.modals.formation.Formation;
 import org.backend.repository.CandidatRepo;
 import org.backend.repository.CandidatRepoInt;
+import org.backend.repository.qualifiers.CandidatQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CandidatsResources {
-    @Inject
+    @Inject @CandidatQualifier
     CandidatRepo candidatRepo;
 
     @DELETE

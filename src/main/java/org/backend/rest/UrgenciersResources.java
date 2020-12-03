@@ -5,6 +5,7 @@ import org.backend.modals.Urgencier;
 import org.backend.repository.UrgencierRepo;
 import org.backend.repository.UrgencierRepoInt;
 import org.backend.repository.UserRepo;
+import org.backend.repository.qualifiers.UrgencierQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UrgenciersResources {
-    @Inject
+    @Inject @UrgencierQualifier
     UrgencierRepo urgencierRepo;
 
     @DELETE
