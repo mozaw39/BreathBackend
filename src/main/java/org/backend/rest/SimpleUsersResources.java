@@ -58,8 +58,5 @@ public class SimpleUsersResources {
                 Response.noContent().build():
                 Response.ok(users).build());
     }
-    private URI getUrlForUser(Personne user, UriInfo uriInfo) {
-        URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUserId().toString()).build();
-        return uri;
-    }
+
 }

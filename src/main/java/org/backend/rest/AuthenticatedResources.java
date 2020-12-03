@@ -2,6 +2,7 @@ package org.backend.rest;
 
 import org.backend.modals.Admin;
 import org.backend.modals.Personne;
+import org.backend.repository.Repository;
 import org.backend.repository.RepositoryInt;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ public class AuthenticatedResources {
     @Context
     ResourceContext context;
     @Inject
-    RepositoryInt repository;
+    Repository repository;
 
     //Cette ressource est crée pour permettre une authentification souple, on ne va pas s'amuser à tester
     // sur toutes les autres /candidads, /admins /urgenciers...

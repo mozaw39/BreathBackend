@@ -17,7 +17,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class CandidatsResources {
     @Inject
-    CandidatRepoInt candidatRepo;
+    CandidatRepo candidatRepo;
 
     @DELETE
     @Path("/{login}")
@@ -50,12 +50,7 @@ public class CandidatsResources {
         return Response.status(Response.Status.CREATED).build();
     }*/
 
-    @GET
-    @Path("/count")
-    public Response countAll() {
-        Long count = candidatRepo.countAll();
-        return Response.ok(count).build();
-    }
+
 
     @GET
     public Response findAll(@BeanParam FilterBean filterBean) {

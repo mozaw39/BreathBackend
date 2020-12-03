@@ -17,20 +17,20 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class Inscription {
     private int count;
     @Inject
-    UserRepoInt userRepo;
+    UserRepo userRepo;
     @Inject
-    UrgencierRepoInt urgencierRepo;
+    UrgencierRepo urgencierRepo;
     @Inject
-    AdminRepoInt adminRepo;
+    AdminRepo adminRepo;
     @Inject
-    RepositoryInt repository;
+    Repository repository;
 
     @POST
     @Path("/admins")
     public Response createAdmin(Admin inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.ADMIN);
         Personne user = repository.create(inscrit);
-        URI uriForUser = getUrlForUser(user, uriInfo);
+        URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
         //user = repository.update(user.getUserId(), user);
@@ -42,7 +42,7 @@ public class Inscription {
     public Response create(SimpleUser inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.USER);
         Personne user = repository.create(inscrit);
-        URI uriForUser = getUrlForUser(user, uriInfo);
+        URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
         //user = repository.update(user.getUserId(), user);
@@ -53,7 +53,7 @@ public class Inscription {
     public Response createCandidat(Candidat inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.CANDIDAT);
         Personne user = repository.create(inscrit);
-        URI uriForUser = getUrlForUser(user, uriInfo);
+        URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
         //user = repository.update(user.getUserId(), user);
@@ -64,19 +64,16 @@ public class Inscription {
     public Response createUrgencier(Urgencier inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.URGENCIER);
         Personne user = repository.create(inscrit);
-        URI uriForUser = getUrlForUser(user, uriInfo);
+        URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
         //user = repository.update(user.getUserId(), user);
         return Response.created(uriForUser).entity(user).build();
     }
 
-    private URI getUrlForUser(Personne user, UriInfo uriInfo) {
-        URI uri = uriInfo.getAbsolutePathBuilder().path("user:" + user.getLogin()).build();
-        return uri;
-    }
-    private URI getUrlForUrgencier(Urgencier user, UriInfo uriInfo) {
-        URI uri = uriInfo.getAbsolutePathBuilder().path("urgenciers").path("urgencier:" + user.getLogin()).build();
+
+    private URI getUrl(Personne user, UriInfo uriInfo) {
+        URI uri = uriInfo.getAbsolutePathBuilder().path("allusers").path(user.getLogin()).build();
         return uri;
     }
 

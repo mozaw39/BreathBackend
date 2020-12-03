@@ -3,6 +3,7 @@ package org.backend.rest;
 import org.backend.modals.Admin;
 import org.backend.modals.Personne;
 import org.backend.modals.Urgencier;
+import org.backend.repository.AdminRepo;
 import org.backend.repository.AdminRepoInt;
 import org.backend.repository.UrgencierRepo;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class AdminsResources {
     @Inject
-    AdminRepoInt adminRepo;
+    AdminRepo adminRepo;
 
     @DELETE
     @Path("/admin:{login}")
@@ -41,13 +42,6 @@ public class AdminsResources {
         Long id = adminRepo.getUserId(login);
         adminRepo.update(id, user);
         return Response.ok(user).build();
-    }
-
-    @GET
-    @Path("/count")
-    public Response countAll() {
-        Long count = adminRepo.countAll();
-        return Response.ok(count).build();
     }
 
     @GET

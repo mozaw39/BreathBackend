@@ -42,12 +42,6 @@ public class UrgenciersResources {
         return Response.ok(user).build();
     }
 
-    @GET
-    @Path("/count")
-    public Response countAll() {
-        Long count = urgencierRepo.countAll();
-        return Response.ok(count).build();
-    }
 
     @GET
     public Response findAll(@BeanParam FilterBean filterBean) {

@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 @Named
 public class AuthorisationFilter implements ContainerRequestFilter {
     private static final String AUTHORISATION_HEADER_KEY = "Authorization";
-    private static final CharSequence SECURED_URL = "authenticated";
+    private static final String SECURED_URL = "authenticated";
     private static final String AUTHORISATION_HEADER_PREFIX = "Basic ";
     private static final String USER_OR_PASSWORD_IS_INCORRECT = "username or password is incorrect";
     private static final String AUTHENTICATED = "authenticated";
@@ -38,17 +38,16 @@ public class AuthorisationFilter implements ContainerRequestFilter {
     private static final String ALL_USERS = "allusers";
     String[] tokens;
     @Inject
-    UserRepoInt userRepo;
+    UserRepo userRepo;
     @Inject
-    UrgencierRepoInt urgencierRepo;
+    UrgencierRepo urgencierRepo;
     @Inject
-    AdminRepoInt adminRepo;
+    AdminRepo adminRepo;
     @Inject
     Repository repository;
     @Inject
-    CandidatRepoInt candidatRepo;
+    CandidatRepo candidatRepo;
 
-    private String userFromPath;
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
@@ -95,7 +94,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         String password = tokens[1];
         // cette condition est ajoutée pour vérifier les infos de l'utilisateur pour chaque envoi
         //
-        if(!repository.isUserOrPasswordCorrect(username, password))
+        if(!repository.isPasswordCorrect(username, password))
             return USER_OR_PASSWORD_IS_INCORRECT;
         //si il est admin, grant it all for him
         if(userClass instanceof Admin)
