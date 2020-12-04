@@ -1,5 +1,6 @@
 package org.backend.rest;
 
+import org.backend.exception.Exceptions;
 import org.backend.modals.*;
 import org.backend.repository.*;
 import org.backend.repository.qualifiers.RepositoryQualifier;
@@ -23,7 +24,12 @@ public class Inscription {
     @Path("/admins")
     public Response createAdmin(Admin inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.ADMIN);
-        Personne user = repository.create(inscrit);
+        Personne user;
+        try{
+            user = repository.create(inscrit);
+        }catch (Exception e){
+            throw new Exceptions.AlreadyExistException("element already exist");
+        }
         URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
@@ -35,7 +41,12 @@ public class Inscription {
     @Path("/users")
     public Response create(SimpleUser inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.USER);
-        Personne user = repository.create(inscrit);
+        Personne user;
+        try{
+            user = repository.create(inscrit);
+        }catch (Exception e){
+            throw new Exceptions.AlreadyExistException("element already exist");
+        }
         URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
@@ -46,7 +57,12 @@ public class Inscription {
     @Path("/candidats")
     public Response createCandidat(Candidat inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.CANDIDAT);
-        Personne user = repository.create(inscrit);
+        Personne user;
+        try{
+            user = repository.create(inscrit);
+        }catch (Throwable e){
+            throw new Exceptions.AlreadyExistException("element already exists!");
+        }
         URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");
@@ -57,7 +73,12 @@ public class Inscription {
     @Path("/urgenciers")
     public Response createUrgencier(Urgencier inscrit, @Context UriInfo uriInfo) {
         inscrit.setUserType(UserType.URGENCIER);
-        Personne user = repository.create(inscrit);
+        Personne user;
+        try{
+            user = repository.create(inscrit);
+        }catch (Exception e){
+            throw new Exceptions.AlreadyExistException("element already exist");
+        }
         URI uriForUser = getUrl(user, uriInfo);
         //ADD LINKS
         //user.addLink(uriForUser.toString(), "self");

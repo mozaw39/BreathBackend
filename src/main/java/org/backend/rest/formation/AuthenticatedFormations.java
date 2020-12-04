@@ -1,9 +1,6 @@
 package org.backend.rest.formation;
 
-import org.backend.modals.*;
 import org.backend.modals.formation.Formation;
-import org.backend.repository.AdminRepoInt;
-import org.backend.repository.UrgencierRepo;
 import org.backend.repository.formation.FormationRepoInt;
 
 import javax.inject.Inject;
@@ -13,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)

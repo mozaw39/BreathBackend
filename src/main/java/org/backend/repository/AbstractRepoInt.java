@@ -2,10 +2,11 @@ package org.backend.repository;
 
 import org.backend.modals.Personne;
 
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public interface AbstractRepoInt<T extends Personne> {
-    T create(T user);
+    T create(T user) throws Exception;
 
     void delete(Long id);
 
@@ -13,11 +14,11 @@ public interface AbstractRepoInt<T extends Personne> {
 
     T update(Long userId, T user);
 
-    Long countAll();
+    public List<T> findAll();
 
-    List<T> findAll();
+    List<T> findAll(Class<?> C);
 
-    boolean isPasswordCorrect(String user, String password);
+    Personne isUserExist(String user, String password);
 
     Long getUserId(String login);
 }

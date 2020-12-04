@@ -3,9 +3,11 @@ package org.backend.repository;
 import org.backend.exception.Exceptions;
 import org.backend.modals.Personne;
 
+
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
+import javax.transaction.RollbackException;
 import java.util.List;
 
 public abstract class AbstractRepo<T extends Personne> implements AbstractRepoInt<T> {
@@ -28,12 +30,9 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
         return null;
     }
     @Override
-    public T create(T user) {
-        if (!isUserExist(user.getLogin())) {
-            getEntityManager().persist(user);
-            return user;
-        }
-        throw new Exceptions.UserAlreadyExistException("user already exist");
+    public T create(T user){
+        getEntityManager().persist(user);
+        return user;
     }
 
     @Override
@@ -48,11 +47,18 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
             throw new Exceptions.DataNotFoundException("message with id: " + id + " is not found");
         return user;
     }
+    public T find(Long id, Class<?> C) {
+        T user = (T) getEntityManager().find(C, id);
+        if (user == null)
+            throw new Exceptions.DataNotFoundException("message with id: " + id + " is not found");
+        return user;
+    }
+
 
     @Override
-    public Long countAll() {
-        TypedQuery query = getEntityManager().createQuery("select count(user) from "+ typeParameterClass.getName() + " user", Long.class);
-        return (Long) query.getSingleResult();
+    public List<T> findAll(Class<?> C) {
+        TypedQuery query = getEntityManager().createQuery("select user from "+ C.getName() + " user order by user.login", C);
+        return query.getResultList();
     }
 
     @Override
@@ -68,7 +74,7 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
         //user.setLinks(newUser.getLinks());
         return user;
     }
-    public boolean isUserExist(String user) {
+    /*public boolean isUserExist(String user) {
        TypedQuery query = getEntityManager().createQuery("select user from "+ typeParameterClass.getName() + " user order by user.login", typeParameterClass);
         List<T> users = query.getResultList();
         for(T iteratedPersonne : users){
@@ -76,26 +82,26 @@ public abstract class AbstractRepo<T extends Personne> implements AbstractRepoIn
                 return true;
         }
         return false;
-    }
+    }*/
 
     @Override
-    public boolean isPasswordCorrect(String user, String password) {
+    public Personne isUserExist(String user, String password) {
         TypedQuery query = getEntityManager().createQuery("select user from "+ typeParameterClass.getName() + " user order by user.login", typeParameterClass);
         List<T> users = query.getResultList();
         for (T iteratedPersonne : users) {
             if (iteratedPersonne.getLogin().equals(user))
                 if (iteratedPersonne.getMdp().equals(password))
-                    return true;
+                    return iteratedPersonne;
         }
 
-        return false;
+        return null;
     }
 
     @Override
     public Long getUserId(String login) {
         T userBis = getInstanceOfT(typeParameterClass);
         userBis.setLogin(login);
-        List<T> users = findAll();
+        List<T> users = findAll(typeParameterClass);
         for (T user : users) {
             if (user.equals(userBis))
                 return user.getUserId();

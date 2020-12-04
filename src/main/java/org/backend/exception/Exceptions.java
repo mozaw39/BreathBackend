@@ -8,9 +8,9 @@ public class Exceptions {
             super(message);
         }
     }
-    static public class UserAlreadyExistException extends RuntimeException{
+    static public class AlreadyExistException extends RuntimeException{
 
-        public UserAlreadyExistException(String message) {
+        public AlreadyExistException(String message) {
             super(message);
         }
     }

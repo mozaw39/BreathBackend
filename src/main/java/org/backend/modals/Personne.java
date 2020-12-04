@@ -4,9 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.TABLE_PER_CLASS
+        strategy = InheritanceType.SINGLE_TABLE
 )
-@Table(name = "table_Personne")
+@Table(name = "table_Personne", uniqueConstraints ={@UniqueConstraint(columnNames = "login")} )
 public class Personne {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

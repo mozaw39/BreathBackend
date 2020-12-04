@@ -2,36 +2,35 @@ package org.backend.rest;
 
 import org.backend.modals.Personne;
 import org.backend.modals.SimpleUser;
-import org.backend.repository.UserRepo;
-import org.backend.repository.qualifiers.SimpleUserQualifier;
+import org.backend.repository.Repository;
+import org.backend.repository.qualifiers.RepositoryQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SimpleUsersResources {
-    @Inject @SimpleUserQualifier
-    UserRepo userRepo;
+    @Inject @RepositoryQualifier
+    Repository userRepo;
 
     @DELETE
-    @Path("/user:{login}")
+    @Path("/{login}")
     public Response delete(@PathParam("login")String login) {
         Long id = userRepo.getUserId(login);
         userRepo.delete(id);
         return Response.noContent().build();
     }
     @GET
-    @Path("/user:{login}")
+    @Path("/{login}")
     public Response find(@PathParam("login")String login) {
         Long id = userRepo.getUserId(login);
-        Personne user = userRepo.find(id);
+        Personne user = userRepo.find(id, SimpleUser.class);
         return Response.ok(user).build();
     }
 
@@ -44,15 +43,11 @@ public class SimpleUsersResources {
     }
 
     @GET
-    @Path("/count")
-    public Response countAll() {
-        Long count = userRepo.countAll();
-        return Response.ok(count).build();
-    }
-
-    @GET
     public Response findAll(@BeanParam FilterBean filterBean) {
-        List<SimpleUser> users = userRepo.findAll();
+        List<SimpleUser> users = userRepo.findAll(SimpleUser.class).
+                stream()
+                .map( element -> (SimpleUser)element )
+                .collect(Collectors.toList());
         if(filterBean.getUserId() > 0)
             users = users.subList(filterBean.getUserId(), users.size());
         return ((users == null)?

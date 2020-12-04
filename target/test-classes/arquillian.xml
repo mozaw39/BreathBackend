@@ -6,7 +6,6 @@ http://jboss.org/schema/arquillian ">
     <container qualifier="jboss" default="true" >
         <configuration>
             <property name="jbossHome">D:\etudes\outils de dev\wildfly-20.0.1.Final</property>
-
         </configuration>
     </container>
 </arquillian>

@@ -2,23 +2,22 @@ package org.backend.rest;
 
 import org.backend.modals.Candidat;
 import org.backend.modals.Personne;
-import org.backend.modals.formation.Formation;
-import org.backend.repository.CandidatRepo;
-import org.backend.repository.CandidatRepoInt;
-import org.backend.repository.qualifiers.CandidatQualifier;
+import org.backend.repository.Repository;
+import org.backend.repository.qualifiers.RepositoryQualifier;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CandidatsResources {
-    @Inject @CandidatQualifier
-    CandidatRepo candidatRepo;
+    @Inject @RepositoryQualifier
+    Repository candidatRepo;
 
     @DELETE
     @Path("/{login}")
@@ -31,7 +30,7 @@ public class CandidatsResources {
     @Path("/{login}")
     public Response find(@PathParam("login")String login) {
         Long id = candidatRepo.getUserId(login);
-        Personne user = candidatRepo.find(id);
+        Personne user = candidatRepo.find(id, Candidat.class);
         return Response.ok(user)
                 .build();
     }
@@ -43,7 +42,7 @@ public class CandidatsResources {
         candidatRepo.update(id, user);
         return Response.ok(user).build();
     }
-
+    //BodyWriter
    /* @POST
     @Path("/{login}/addFormation")
     public Response addFormation(Candidat candidat, Formation formation){
@@ -51,11 +50,10 @@ public class CandidatsResources {
         return Response.status(Response.Status.CREATED).build();
     }*/
 
-
-
     @GET
     public Response findAll(@BeanParam FilterBean filterBean) {
-        List<Candidat> users = candidatRepo.findAll();
+        List<Candidat> users = candidatRepo.findAll(Candidat.class).stream().map(element -> (Candidat)element)
+                .collect(Collectors.toList());
         if(filterBean.getUserId() > 0)
             users = users.subList(filterBean.getUserId(), users.size());
         return ((users == null)?
