@@ -19,8 +19,9 @@ all of this modals inherite from a commun entity to help adapt the Domain Driven
 <strong>AbstractRepo: </strong>This repo helps handle all the crud operation related to each entity, that helps using a clean DDD design and not repeating code in useless way.<br/>
 <strong>RoleRepo: </strong>Each role has a specific repo that handle all the special operations.
 ## Resources
-The how we handle App resources is that each Role use cases are build after a base URL named after the user role.<strong>i.e:</strong><br/>
+The way how we handle App resources is that each Role use cases are build after a base URL named after the user role. <strong> i.e:</strong><br/>
 <strong>candidat resources: </strong> candidat/....
+<strong>urgencier resources: </strong> urgencier/....
 ## Authentication & authorization
 Authentication and authorization are build using filters, each resource that demands authentication is put after the base url "/secured" (so that we intercept ony if a user reach secured resources).<br/>
 to handle authorization: we handle autorization by testing the equality between the usertype (role) and the base url that he reaches.
