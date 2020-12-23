@@ -16,7 +16,7 @@ all of this modals inherite from a commun entity to help adapt the Domain Driven
 ### Modals related to Business
 <strong>Formation</strong>: each candidat(role) can subscribe to a "Formation" and after passing the test he can become an "Urgencier"
 ## Repositories
-<strong>AbstractRepo: </strong>This repo helps handle all the crud operation related to each entity, that helps using a clean DDD design and not repeating code in useless way.
+<strong>AbstractRepo: </strong>This repo helps handle all the crud operation related to each entity, that helps using a clean DDD design and not repeating code in useless way.<br/>
 <strong>RoleRepo: </strong>Each role has a specific repo that handle all the special operations.
 ## Resources
 The how we handle App resources is that each Role use cases are build after a base URL named after the user role.<strong>i.e:</strong><br/>
