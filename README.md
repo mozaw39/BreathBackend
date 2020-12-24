@@ -4,7 +4,8 @@ This application helps people that have emergency situations call the nearest eq
 # BreathBackend
 Breath is a distributed application that consists of a backend logic developped with JEE specification and two clients(mobile and web), this repository contains the backend logic
 # Application architecture
-I had the intention to build from scrash this application in order to experience some Design Paterns, and to help me get better into "clean code" and SOLID approaches, espacially when it comes to add new features and how to make your application extensible. "A minimun features modification/extension need to have a minimum code modification".
+I had the intention to build from scrash this application in order to experience some Design Paterns, and to help me get better into "clean code" and SOLID approaches, espacially when it comes to add new features and how to make your application extensible. "A minimun features modification/extension need to have a minimum code modification".<br/>
+The main architecture model is based on Domain Driven Design using repositories to help persist/retrieve/update data in the database.
 ## Modals
 Modals used in this App:
 ### Modals related to App users (roles/entities):
