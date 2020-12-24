@@ -25,4 +25,4 @@ The way how we handle App resources is that each Role use cases are build after 
 <strong>urgencier resources: </strong> urgencier/....
 ## Authentication & authorization
 Authentication and authorization are build using filters, each resource that demands authentication is put after the base url "/secured" (so that we intercept ony if a user reach secured resources).<br/>
-to handle authorization: we handle autorization by testing the equality between the usertype (role) and the base url that he reaches.
+to handle authorization: we handle autorization by testing the equality between the usertype (role) and the base url that he reaches. So we can say that the authorization part is handled at the execution level which make it a solid approach.
